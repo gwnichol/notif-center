@@ -6,8 +6,13 @@ local beautiful = require('beautiful')
 local button = require("widgets.button")
 local dpi = require('beautiful').xresources.apply_dpi
 
+function script_path()
+   local str = debug.getinfo(2, "S").source:sub(2)
+   return str:match("(.*/)")
+end
+
 local config_dir = gears.filesystem.get_configuration_dir()
-local widget_icon_dir = config_dir .. 'notifs/notif-center/icons/'
+local widget_icon_dir = script_path() .. '../icons/'
 
 local delete_button = button.create_image_onclick(beautiful.clear_grey_icon, beautiful.clear_icon, function() _G.reset_notifbox_layout() end)
 

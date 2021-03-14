@@ -20,12 +20,18 @@ local beautiful = require('beautiful')
 --  #     # #      #      #      #      #   #  #    # 
 --  #     # ###### ###### #      ###### #    #  ####
 
+local modPath = ...
+
+function script_path()
+   local str = debug.getinfo(2, "S").source:sub(2)
+   return str:match("(.*/)")
+end
 
 local dpi = beautiful.xresources.apply_dpi
-local empty_notifbox = require('notifs.notif-center.build-notifbox.empty-notifbox')
+local empty_notifbox = require(modPath .. '.empty-notifbox')
 
 local config_dir = gears.filesystem.get_configuration_dir()
-local widget_icon_dir = config_dir .. 'notifs/notif-center/icons/'
+local widget_icon_dir = script_path() .. '../icons/'
 
 
 
@@ -95,7 +101,7 @@ naughty.connect_signal("added", function(n)
 		appicon = beautiful.notification_icon
 	end
 
-	local box = require("notifs.notif-center.build-notifbox.notifbox")
+	local box = require(modPath .. ".notifbox")
 	notifbox_layout:insert(1, 
 		box.create(appicon, n.title, n.message, width))
 end)
